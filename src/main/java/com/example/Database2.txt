@@ -1,0 +1,10 @@
+text.txt
+foto2.jpg
+sound.wav
+file7.zip
+draws.ai
+Laste.st
+song1.mp3
+file8.ogg
+photo.tiff
+Vrlaatste.rar
