@@ -1,8 +1,4 @@
 package com.example.demo.backLogic;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -14,9 +10,11 @@ public class NameServer implements Runnable{
     Map<Integer, Integer> dataBase = new HashMap();
     Map<Integer, String> nodes = new HashMap<>();
     Integer highest = 0;
+    String eigenIP = "192.168.1.1";
     public NameServer() throws IOException {
         readNodeMap();
         readDatabase();
+        sendUDPMessage("shutdown","230.0.0.0",4321);
     }
     private int hashfunction(String name, boolean node) {
         int hash=0;
@@ -29,8 +27,7 @@ public class NameServer implements Runnable{
         hash = hash/(temp/7);
 
         if (node) {
-            for (i = 1; i <= nodes.size() + 1; i++)
-                hash = (hash) / (i);
+                hash = (hash) / (5);
         }
         else
             hash = hash/53;
@@ -180,7 +177,7 @@ public class NameServer implements Runnable{
             addNodeToMap(temp.get(0),temp.get(1));
             System.out.println(temp.toString());
             System.out.println("Node added");
-            sendUDPMessage(Integer.toString(nodes.size()),temp.get(1),4321);
+            sendUDPMessage("nodeCount "+Integer.toString(nodes.size()),temp.get(1),5000);
         }
         if (msg.contains("remNode")) {
             String haha = msg.replace("remNode ","");
@@ -190,18 +187,17 @@ public class NameServer implements Runnable{
                     temp.add(t);
             }
             // Hier wordt terug gegeve de hoeveelste node hij was dus ist mogenlijk de hash te fixe
-            removeNodeFromMap();
+            removeNodeFromMap(hashfunction(temp.get(0),true));
             System.out.println(temp.toString());
             System.out.println("Node removed");
         }
-
-
         return temp;
     }
     @Override
     public void run() {
         try {
             receiveUDPMessage("230.0.0.0", 4321);
+            receiveUDPMessage(eigenIP, 5000);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
