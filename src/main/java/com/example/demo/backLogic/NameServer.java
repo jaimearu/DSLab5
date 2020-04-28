@@ -14,7 +14,7 @@ public class NameServer implements Runnable{
     public NameServer() throws IOException {
         readNodeMap();
         readDatabase();
-        sendUDPMessage("shutdown","230.0.0.0",4321);
+        sendUDPUnicastMessage("shutdown","192.168.1.10",5000);
     }
     private int hashfunction(String name, boolean node) {
         int hash=0;
@@ -118,15 +118,6 @@ public class NameServer implements Runnable{
                 highest = hash;
         }
     }
-    /*
-    public Main() throws IOException {
-        sendUDPMessage("This is a multicast messge", "230.0.0.0",
-                4321);
-        sendUDPMessage("OK", "230.0.0.0",
-                4321);
-    }
-
-     */
     public static void main(String[] args) throws IOException {
         Thread t = new Thread(new NameServer());
         t.start();
@@ -141,11 +132,21 @@ public class NameServer implements Runnable{
         socket.send(packet);
         socket.close();
     }
+    public static void sendUDPUnicastMessage(String message,
+                                      String ipAddress, int port) throws IOException {
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress destination = InetAddress.getLocalHost();
+        byte[] msg = message.getBytes();
+        DatagramPacket packet = new DatagramPacket(msg, msg.length,
+                destination, port);
+        socket.send(packet);
+        socket.close();
+    }
     public void receiveUDPMessage(String ip, int port) throws
             IOException {
         byte[] buffer = new byte[1024];
-        MulticastSocket socket = new MulticastSocket(4321);
-        InetAddress group = InetAddress.getByName("230.0.0.0");
+        MulticastSocket socket = new MulticastSocket(port);
+        InetAddress group = InetAddress.getByName(ip);
         socket.joinGroup(group);
         while (true) {
             System.out.println("Waiting for multicast message...");
@@ -154,7 +155,12 @@ public class NameServer implements Runnable{
             socket.receive(packet);
             String msg = new String(packet.getData(),
                     packet.getOffset(), packet.getLength());
-            getNameAndIp(msg);
+            if(msg.contains("next "))
+                System.out.println("next gestuurd    : "+msg);
+            if(msg.contains("previous "))
+                System.out.println("previous gestuurd    :"+msg);
+            else
+                getNameAndIp(msg);
             if ("OK".equals(msg)) {
                 System.out.println("No more message. Exiting : " + msg);
                 break;
@@ -196,8 +202,8 @@ public class NameServer implements Runnable{
     @Override
     public void run() {
         try {
-            receiveUDPMessage("230.0.0.0", 4321);
             receiveUDPMessage(eigenIP, 5000);
+            //receiveUDPMessage(eigenIP, 4321);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
