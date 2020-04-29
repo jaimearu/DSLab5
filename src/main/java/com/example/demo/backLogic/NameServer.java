@@ -45,7 +45,7 @@ public class NameServer implements Runnable{
     }
     private void addNodeToMap(String name, String ip) throws IOException {
         BufferedWriter writer = new BufferedWriter(
-                new FileWriter("main\\java\\com\\example\\NodeMap.txt", true)  //Set true for append mode
+                new FileWriter("java\\com\\example\\NodeMap.txt", true)  //Set true for append mode
         );
         writer.newLine();   //Add new line
         writer.write(name);
@@ -64,7 +64,7 @@ public class NameServer implements Runnable{
     }
     private void removeNodeFromMap(Integer node) throws IOException {
         nodes.clear();
-        File file = new File("main\\java\\com\\example\\NodeMap.txt");
+        File file = new File("java\\com\\example\\NodeMap.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st;
         nodes.clear();
@@ -82,7 +82,7 @@ public class NameServer implements Runnable{
         }
         int i = 0;
         BufferedWriter writer = new BufferedWriter(
-                new FileWriter("main\\java\\com\\example\\NodeMap.txt", false)  //Set true for append mode
+                new FileWriter("java\\com\\example\\NodeMap.txt", false)  //Set true for append mode
         );
         while (i<nameToAdd.size()){
             if (i>=1)
@@ -98,7 +98,7 @@ public class NameServer implements Runnable{
         readDatabase();
     }
     private void readDatabase() throws IOException {
-        File file2 = new File("main\\java\\com\\example\\Database2.txt");
+        File file2 = new File("java\\com\\example\\Database2.txt");
         BufferedReader br2 = new BufferedReader(new FileReader(file2));
         String st2;
         dataBase.clear();
@@ -115,7 +115,7 @@ public class NameServer implements Runnable{
         System.out.println(dataBase.toString());
     }
     private void readNodeMap() throws IOException {
-        File file = new File("main\\java\\com\\example\\NodeMap.txt");
+        File file = new File("java\\com\\example\\NodeMap.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String st;
         nodes.clear();
