@@ -13,6 +13,10 @@ public class NameServer implements Runnable{
     InetAddress inetAddress = InetAddress.getLocalHost();
     String name = inetAddress.getHostName();
     String thisIp =inetAddress.getHostAddress();
+    public static void main(String[] args) throws IOException {
+        Thread t = new Thread(new NameServer());
+        t.start();
+    }
     public NameServer() throws IOException {
         readNodeMap();
         readDatabase();
@@ -21,6 +25,7 @@ public class NameServer implements Runnable{
         //sendUDPUnicastMessage("shutdown","192.168.1.10",5000);
         System.out.println("Opgestart");
     }
+
     private int hashfunction(String name, boolean node) {
         int hash=0;
         int temp = 0;
@@ -122,10 +127,6 @@ public class NameServer implements Runnable{
             if (hash>highest)
                 highest = hash;
         }
-    }
-    public static void main(String[] args) throws IOException {
-        Thread t = new Thread(new NameServer());
-        t.start();
     }
     public static void sendUDPMessage(String message,
                                       String ipAddress, int port) throws IOException {
