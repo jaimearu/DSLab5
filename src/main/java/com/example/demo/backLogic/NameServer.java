@@ -14,7 +14,8 @@ public class NameServer implements Runnable{
     public NameServer() throws IOException {
         readNodeMap();
         readDatabase();
-        sendUDPUnicastMessage("shutdown","192.168.1.10",5000);
+        //sendUDPUnicastMessage("shutdown","192.168.1.10",5000);
+        System.out.println("Opgestart");
     }
     private int hashfunction(String name, boolean node) {
         int hash=0;
@@ -132,22 +133,12 @@ public class NameServer implements Runnable{
         socket.send(packet);
         socket.close();
     }
-    public static void sendUDPUnicastMessage(String message,
-                                      String ipAddress, int port) throws IOException {
-        DatagramSocket socket = new DatagramSocket();
-        InetAddress destination = InetAddress.getLocalHost();
-        byte[] msg = message.getBytes();
-        DatagramPacket packet = new DatagramPacket(msg, msg.length,
-                destination, port);
-        socket.send(packet);
-        socket.close();
-    }
-    public void receiveUDPMessage(String ip, int port) throws
+    public void receiveUDPMessage(int port) throws
             IOException {
         byte[] buffer = new byte[1024];
         MulticastSocket socket = new MulticastSocket(port);
-        InetAddress group = InetAddress.getByName(ip);
-        socket.joinGroup(group);
+        //InetAddress group = InetAddress.getByName(ip);
+        //socket.joinGroup(group);
         while (true) {
             System.out.println("Waiting for multicast message...");
             DatagramPacket packet = new DatagramPacket(buffer,
@@ -166,7 +157,7 @@ public class NameServer implements Runnable{
                 break;
             }
         }
-        socket.leaveGroup(group);
+        //socket.leaveGroup(group);
         socket.close();
     }
 
@@ -202,7 +193,7 @@ public class NameServer implements Runnable{
     @Override
     public void run() {
         try {
-            receiveUDPMessage(eigenIP, 5000);
+            receiveUDPMessage( 5000);
             //receiveUDPMessage(eigenIP, 4321);
         } catch (IOException ex) {
             ex.printStackTrace();
