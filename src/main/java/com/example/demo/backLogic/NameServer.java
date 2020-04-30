@@ -4,6 +4,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class NameServer implements Runnable{
@@ -18,11 +19,11 @@ public class NameServer implements Runnable{
         t.start();
     }
     public NameServer() throws IOException {
-        readNodeMap();
-        readDatabase();
+        //readNodeMap();
+        //readDatabase();
         System.out.println("dees is mijn naam "+name);
         System.out.println("dees is mijn ip "+thisIp);
-        //sendUDPUnicastMessage("shutdown","192.168.1.10",5000);
+        sendUDPMessage("nodeCount 1","230.0.0.0",10000);
         System.out.println("Opgestart");
     }
 
@@ -179,7 +180,8 @@ public class NameServer implements Runnable{
             addNodeToMap(temp.get(0),temp.get(1));
             System.out.println(temp.toString());
             System.out.println("Node added");
-            sendUDPMessage("nodeCount "+Integer.toString(nodes.size()),"230.0.0.0",10000);
+            System.out.println(nodes.size());
+            sendUDPMessage("nodeCount "+nodes.size(),"230.0.0.0",10000);
         }
         if (msg.contains("remNode")) {
             String haha = msg.replace("remNode ","");
