@@ -121,12 +121,14 @@ public class NameServer implements Runnable{
         String st;
         nodes.clear();
         while ((st = br.readLine()) != null){
-            String ip = br.readLine();
-            int hash = hashfunction(st, true);
-            System.out.println("node "+st+" heeft hashwaarde "+ hash);
-            nodes.put(hash, ip);
-            if (hash>highest)
-                highest = hash;
+            if(!st.isEmpty()) {
+                String ip = br.readLine();
+                int hash = hashfunction(st, true);
+                System.out.println("node " + st + " heeft hashwaarde " + hash);
+                nodes.put(hash, ip);
+                if (hash > highest)
+                    highest = hash;
+            }
         }
     }
     public static void sendUDPMessage(String message,
