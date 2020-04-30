@@ -19,8 +19,8 @@ public class NameServer implements Runnable{
         t.start();
     }
     public NameServer() throws IOException {
-        readNodeMap();
-        readDatabase();
+        //readNodeMap();
+        //readDatabase();
         System.out.println("dees is mijn naam "+name);
         System.out.println("dees is mijn ip "+thisIp);
                 System.out.println("Opgestart");
@@ -179,6 +179,7 @@ public class NameServer implements Runnable{
                     temp.add(t);
             }
             addNodeToMap(temp.get(0),temp.get(1));
+            nodes.put(hashfunction(temp.get(0),true),temp.get(1));
             System.out.println(temp.toString());
             System.out.println("Node added");
             System.out.println("NodeCount is " +nodes.size());
