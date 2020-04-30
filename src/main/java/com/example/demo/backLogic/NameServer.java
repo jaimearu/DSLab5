@@ -34,7 +34,6 @@ public class NameServer implements Runnable{
             hash = 3 * hash + name.charAt(i);
             temp = temp+ name.charAt(i);
         }
-        hash = hash/(temp/7);
 
         if (node) {
                 hash = (hash) / (5);
