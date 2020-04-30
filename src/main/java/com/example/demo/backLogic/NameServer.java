@@ -23,8 +23,7 @@ public class NameServer implements Runnable{
         //readDatabase();
         System.out.println("dees is mijn naam "+name);
         System.out.println("dees is mijn ip "+thisIp);
-        sendUDPMessage("nodeCount 1","230.0.0.0",10000);
-        System.out.println("Opgestart");
+                System.out.println("Opgestart");
     }
 
     private int hashfunction(String name, boolean node) {
