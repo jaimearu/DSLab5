@@ -142,8 +142,8 @@ public class NameServer implements Runnable{
             IOException {
         byte[] buffer = new byte[1024];
         MulticastSocket socket = new MulticastSocket(port);
-        //InetAddress group = InetAddress.getByName(ip);
-        //socket.joinGroup(group);
+        InetAddress group = InetAddress.getByName("230.0.0.0");
+        socket.joinGroup(group);
         while (true) {
             System.out.println("Waiting for multicast message...");
             DatagramPacket packet = new DatagramPacket(buffer,
@@ -162,7 +162,7 @@ public class NameServer implements Runnable{
                 break;
             }
         }
-        //socket.leaveGroup(group);
+        socket.leaveGroup(group);
         socket.close();
     }
 
@@ -179,7 +179,7 @@ public class NameServer implements Runnable{
             addNodeToMap(temp.get(0),temp.get(1));
             System.out.println(temp.toString());
             System.out.println("Node added");
-            sendUDPMessage("nodeCount "+Integer.toString(nodes.size()),temp.get(1),10000);
+            sendUDPMessage("nodeCount "+Integer.toString(nodes.size()),"230.0.0.0",10000);
         }
         if (msg.contains("remNode")) {
             String haha = msg.replace("remNode ","");
