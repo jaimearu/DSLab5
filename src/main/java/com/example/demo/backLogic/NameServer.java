@@ -19,8 +19,11 @@ public class NameServer implements Runnable{
         t.start();
     }
     public NameServer() throws IOException {
-        //readNodeMap();
-        //readDatabase();
+        File file = new File("//home//pi//DSLab5//src//main//java//com//example//demo/backLogic//NodeMap.txt");
+        if(file.delete())
+            System.out.println("tis weg");
+        readNodeMap();
+        readDatabase();
         System.out.println("dees is mijn naam "+name);
         System.out.println("dees is mijn ip "+thisIp);
                 System.out.println("Opgestart");
