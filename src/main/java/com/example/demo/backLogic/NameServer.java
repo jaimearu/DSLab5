@@ -30,13 +30,13 @@ public class NameServer implements Runnable{
         int hash=0;
         int temp = 0;
         int i;
-        for (i = 0; i<=name.length();i++) {
+        for (i = 0; i<name.length();i++) {
             hash = 3 * hash + name.charAt(i);
             temp = temp+ name.charAt(i);
         }
-
+        hash = hash+temp;
         if (node) {
-                hash = (hash) / (5);
+            System.out.println("node");
         }
         else
             hash = hash/53;
