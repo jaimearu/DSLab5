@@ -184,7 +184,7 @@ public class NameServer implements Runnable{
             addNodeToMap(temp.get(0),temp.get(1));
             System.out.println(temp.toString());
             System.out.println("Node added");
-            System.out.println(nodes.size());
+            System.out.println("NodeCount is " +nodes.size());
             sendUDPMessage("nodeCount "+nodes.size(),"230.0.0.0",10000);
         }
         if (msg.contains("remNode")) {
